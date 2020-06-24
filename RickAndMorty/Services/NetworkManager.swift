@@ -22,7 +22,7 @@ class NetworkManager {
     func fetchAllCharacters(completion: @escaping ([Character]?) -> Void) {
         AF.request(urlString)
             .validate()
-            .responseData{ (response) in
+            .responseData { response in
 
                 switch response.result {
                 case .success(let value):
@@ -43,4 +43,3 @@ class NetworkManager {
         return response
     }
 }
-
