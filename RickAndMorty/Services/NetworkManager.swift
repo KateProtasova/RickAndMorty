@@ -9,7 +9,11 @@
 import Foundation
 import Alamofire
 
-class NetworkManager {
+protocol Networking {
+    func fetchAllCharacters(completion: @escaping ([Character]?) -> Void)
+}
+
+class NetworkManager: Networking {
 
     static let shared = NetworkManager()
 

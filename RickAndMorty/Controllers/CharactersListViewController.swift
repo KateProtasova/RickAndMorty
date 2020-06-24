@@ -8,17 +8,18 @@
 
 import UIKit
 
-class CharactersViewController: UIViewController {
+final class CharactersListViewController: UIViewController {
 
     @IBOutlet private var tableView: UITableView!
 
     private var characters: [Character] = []
+    let viewModel = CharactersListViewModel(networkManager: NetworkManager.shared)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
-        getData()
+        viewModel.delegate = self
+        viewModel.getData()
     }
 
     private func setupUI() {
@@ -28,16 +29,9 @@ class CharactersViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
-    //Model
-    private func getData() {
-        NetworkManager.shared.fetchAllCharacters { characters in
-            self.characters = characters ?? []
-            self.tableView.reloadData()
-        }
-    }
 }
 
-extension CharactersViewController: UITableViewDataSource {
+extension CharactersListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return characters.count
@@ -49,5 +43,24 @@ extension CharactersViewController: UITableViewDataSource {
             return cell
         }
         return UITableViewCell()
+    }
+}
+
+extension CharactersListViewController: CharactersListViewModelDelegate {
+    func updateList(characters: [Character]) {
+        self.characters = characters
+        self.tableView.reloadData()
+    }
+
+    func showError(error: Error) {
+
+    }
+
+    func showSpinner(title: String) {
+
+    }
+
+    func hideSpinner() {
+
     }
 }
