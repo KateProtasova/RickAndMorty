@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 final class CharactersListViewController: UIViewController {
 
@@ -27,6 +28,8 @@ final class CharactersListViewController: UIViewController {
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = "Rick and Morty"
     }
 
 }
@@ -53,14 +56,15 @@ extension CharactersListViewController: CharactersListViewModelDelegate {
     }
 
     func showError(error: Error) {
+           self.showAlert(with: "Ошибка!", and: error.localizedDescription)
+       }
 
-    }
+       func showSpinner(title: String) {
+           SwiftSpinner.setTitleFont(UIFont(name: "Helvetica Neue", size: 16.0))
+           SwiftSpinner.show(title, animated: true)
+       }
 
-    func showSpinner(title: String) {
-
-    }
-
-    func hideSpinner() {
-
-    }
+       func hideSpinner() {
+           SwiftSpinner.hide()
+       }
 }

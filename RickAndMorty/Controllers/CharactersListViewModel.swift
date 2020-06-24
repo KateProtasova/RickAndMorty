@@ -24,8 +24,15 @@ final class CharactersListViewModel {
     }
 
     func getData() {
+        delegate?.showSpinner(title: "Получаем всех героев")
         networkManager.fetchAllCharacters { characters in
-            self.delegate?.updateList(characters: characters ?? [])
+             self.delegate?.hideSpinner()
+            switch characters {
+            case .success(let value):
+                 self.delegate?.updateList(characters: value)
+            case .failure(let error):
+                 self.delegate?.showError(error: error)
+            }
         }
     }
 }

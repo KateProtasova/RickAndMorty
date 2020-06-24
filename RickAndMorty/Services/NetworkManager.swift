@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 protocol Networking {
-    func fetchAllCharacters(completion: @escaping ([Character]?) -> Void)
+    func fetchAllCharacters(completion: @escaping (Result<[Character], Error>) -> Void)
 }
 
 class NetworkManager: Networking {
@@ -21,19 +21,20 @@ class NetworkManager: Networking {
 
     }
 
-    private let urlString = "https://rickandmortyapi.com/api/character/"
-
-    func fetchAllCharacters(completion: @escaping ([Character]?) -> Void) {
-        AF.request(urlString)
+    func fetchAllCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
+        let requestMethod = "\(baseUrlString)/\(ServerAPIMethods.getAllCharacters)"
+        AF.request(requestMethod)
             .validate()
             .responseData { response in
-
                 switch response.result {
                 case .success(let value):
                     let decoded = self.decodeJSON(type: RootModel.self, from: value)
-                    completion(decoded?.results)
-                case .failure(let error):
-                    print(error)
+                    guard let characters = decoded else {
+                        return completion(.failure(NetworkError.networkError))
+                    }
+                    completion(.success(characters.results))
+                case .failure:
+                   completion(.failure(NetworkError.networkError))
                 }
         }
     }
@@ -42,7 +43,7 @@ class NetworkManager: Networking {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         guard let data = from, let response = try? decoder.decode(type.self, from: data) else {
-            return nil
+            return  nil
         }
         return response
     }

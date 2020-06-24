@@ -9,5 +9,6 @@ target 'RickAndMorty' do
 pod 'Alamofire'
 pod 'Kingfisher'
 pod 'R.swift'
+pod "SwiftSpinner"
 
 end
