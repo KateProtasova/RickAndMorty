@@ -28,6 +28,8 @@ final class CharactersListViewController: UIViewController {
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.delegate = self
+        tableView.dataSource = self
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Rick and Morty"
     }
@@ -47,6 +49,16 @@ extension CharactersListViewController: UITableViewDataSource {
         }
         return UITableViewCell()
     }
+
+}
+
+extension CharactersListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+              if let detailsCharacterViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailsCharacterViewController") as? DetailsCharacterViewController {
+                  detailsCharacterViewController.character = characters[indexPath.row]
+                  navigationController?.pushViewController(detailsCharacterViewController, animated: true)
+              }
+          }
 }
 
 extension CharactersListViewController: CharactersListViewModelDelegate {
