@@ -16,14 +16,13 @@ final class CharactersListViewController: UIViewController {
 
     private var nextUrl: String? = ""
     private var characters: [Character] = []
-
-    let refreshControl: UIRefreshControl = {
+    private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
 
-    let viewModel = CharactersListViewModel(networkManager: NetworkManager.shared)
+    var viewModel: ViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +35,6 @@ final class CharactersListViewController: UIViewController {
     @objc
     private func refresh(sender: UIRefreshControl) {
         viewModel.refreshData()
-        //sender.endRefreshing()
     }
 
     private func setupUI() {
@@ -94,7 +92,7 @@ extension CharactersListViewController: UITableViewDelegate {
 }
 
 extension CharactersListViewController: CharactersListViewModelDelegate {
-    func updateList(characters: RootModel) {
+    func updateList(characters: RootCharacter) {
         self.characters.append(contentsOf: characters.results)
         nextUrl = characters.info.next
         tableView.tableFooterView = UIView(frame: CGRect.zero)

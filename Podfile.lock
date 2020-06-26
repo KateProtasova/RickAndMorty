@@ -1,15 +1,19 @@
 PODS:
   - Alamofire (5.2.1)
+  - DITranquillity (3.9.3):
+    - SwiftLazy
   - Kingfisher (5.14.0):
     - Kingfisher/Core (= 5.14.0)
   - Kingfisher/Core (5.14.0)
   - R.swift (5.2.2):
     - R.swift.Library (~> 5.2.0)
   - R.swift.Library (5.2.0)
+  - SwiftLazy (1.1.7)
   - SwiftSpinner (2.1.0)
 
 DEPENDENCIES:
   - Alamofire
+  - DITranquillity
   - Kingfisher
   - R.swift
   - SwiftSpinner
@@ -17,18 +21,22 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DITranquillity
     - Kingfisher
     - R.swift
     - R.swift.Library
+    - SwiftLazy
     - SwiftSpinner
 
 SPEC CHECKSUMS:
   Alamofire: e911732990610fe89af59ac0077f923d72dc3dfd
+  DITranquillity: 7aba075b73dbb1f321a1218dd3d9f1bd5ad9427b
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
   R.swift: 7c52cdc57a66840ffe6cbd8a823d732059d42a32
   R.swift.Library: 5ba4f1631300caf9a4d890186930da85d540769d
+  SwiftLazy: dcb1edc6c2b633ba2e68f28554d9dd6d1c0bfd13
   SwiftSpinner: 0f15c006307f8d8bbac075638927ec1361b565d7
 
-PODFILE CHECKSUM: 35da1dafbb5222063eea780bf28f1641a6061e98
+PODFILE CHECKSUM: 8f2aaac3fc27c7355537ec37dfc498ad02fe8559
 
 COCOAPODS: 1.9.2

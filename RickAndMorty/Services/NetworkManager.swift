@@ -10,30 +10,24 @@ import Foundation
 import Alamofire
 
 protocol Networking {
-    func fetchAllCharacters(completion: @escaping (Result<RootModel, Error>) -> Void)
-    func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void)
+    func fetchAllCharacters(completion: @escaping (Result<RootCharacter, Error>) -> Void)
+    func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootCharacter, Error>) -> Void)
 }
 
 class NetworkManager: Networking {
 
-    static let shared = NetworkManager()
-
-    private init() {
-
-    }
-
-    func fetchAllCharacters(completion: @escaping (Result<RootModel, Error>) -> Void) {
+    func fetchAllCharacters(completion: @escaping (Result<RootCharacter, Error>) -> Void) {
         let requestMethod = "\(baseUrlString)/\(ServerAPIMethods.getAllCharacters)"
          print("fetchAllCharacters \(requestMethod)")
         getCharacters(urlString: requestMethod, completion: completion)
     }
 
-    func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void) {
+    func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootCharacter, Error>) -> Void) {
          print("urlString \(urlString)")
         getCharacters(urlString: urlString, completion: completion)
     }
 
-    func getCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void) {
+    func getCharacters(urlString: String, completion: @escaping (Result<RootCharacter, Error>) -> Void) {
         let requestMethod = urlString
          print("getCharacters \(requestMethod)")
         AF.request(requestMethod)
@@ -42,7 +36,7 @@ class NetworkManager: Networking {
                  print("getCharacters \(response)")
                 switch response.result {
                 case .success(let value):
-                    let decoded = self.decodeJSON(type: RootModel.self, from: value)
+                    let decoded = self.decodeJSON(type: RootCharacter.self, from: value)
                     guard let characters = decoded else {
                         return completion(.failure(NetworkError.networkError))
                     }

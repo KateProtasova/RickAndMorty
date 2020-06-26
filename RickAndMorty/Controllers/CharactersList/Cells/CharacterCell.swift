@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class CharacterCell: UITableViewCell {
+final class CharacterCell: UITableViewCell {
 
     @IBOutlet private var avatarImageView: UIImageView!
     @IBOutlet private var nameLabel: UILabel!
