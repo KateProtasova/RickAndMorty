@@ -23,7 +23,7 @@ class RootModel: Codable {
 class Info: Codable {
     let count: Int
     let pages: Int
-    let next: String
+    let next: String?
     let prev: String?
 
     init(count: Int, pages: Int, next: String, prev: String?) {
@@ -38,17 +38,17 @@ class Info: Codable {
 class Character: Codable {
     let id: Int
     let name: String
-    let status: Status
-    let species: Species
+    let status: String
+    let species: String
     let type: String
-    let gender: Gender
+    let gender: String
     let origin, location: Location
     let image: String
     let episode: [String]
     let url: String
     let created: String
 
-    init(id: Int, name: String, status: Status, species: Species, type: String, gender: Gender, origin: Location, location: Location, image: String, episode: [String], url: String, created: String) {
+    init(id: Int, name: String, status: String, species: String, type: String, gender: String, origin: Location, location: Location, image: String, episode: [String], url: String, created: String) {
         self.id = id
         self.name = name
         self.status = status
@@ -84,6 +84,7 @@ class Location: Codable {
 enum Species: String, Codable {
     case alien = "Alien"
     case human = "Human"
+    case humanoid = "Humanoid"
 }
 
 enum Status: String, Codable {

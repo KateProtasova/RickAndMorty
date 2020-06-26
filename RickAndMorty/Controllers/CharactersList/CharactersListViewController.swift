@@ -12,6 +12,11 @@ import SwiftSpinner
 final class CharactersListViewController: UIViewController {
 
     @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var loadingView: UIView!
+
+    var allPages: Int = 0
+    var nextPage: Int = 0
+    var nextUrl: String? = ""
 
     private var characters: [Character] = []
     let viewModel = CharactersListViewModel(networkManager: NetworkManager.shared)
@@ -49,7 +54,6 @@ extension CharactersListViewController: UITableViewDataSource {
         }
         return UITableViewCell()
     }
-
 }
 
 extension CharactersListViewController: UITableViewDelegate {
@@ -59,16 +63,39 @@ extension CharactersListViewController: UITableViewDelegate {
                   navigationController?.pushViewController(detailsCharacterViewController, animated: true)
               }
           }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let count = characters.count
+        if  count > 1 {
+            let lastElement = count - 1
+            if indexPath.row == lastElement {
+                guard let urlString = nextUrl else {
+                    return
+                }
+              viewModel.getNextPage(urlString: urlString)
+              tableView.tableFooterView = loadingView
+                print("characters \(characters.count)")
+                print("characters \(allPages)")
+                print("characters \(nextPage)")
+            }
+        }
+    }
+
 }
 
 extension CharactersListViewController: CharactersListViewModelDelegate {
-    func updateList(characters: [Character]) {
-        self.characters = characters
+    func updateList(characters: RootModel) {
+        self.characters.append(contentsOf: characters.results)
+        allPages = characters.info.pages
+        nextPage += 1
+        nextUrl = characters.info.next
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
         self.tableView.reloadData()
     }
 
     func showError(error: Error) {
            self.showAlert(with: "Ошибка!", and: error.localizedDescription)
+         tableView.tableFooterView = UIView(frame: CGRect.zero)
        }
 
        func showSpinner(title: String) {

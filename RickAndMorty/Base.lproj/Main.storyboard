@@ -36,10 +36,26 @@
                     </view>
                     <navigationItem key="navigationItem" id="SJl-uJ-CE7"/>
                     <connections>
+                        <outlet property="loadingView" destination="JLi-gr-88I" id="wOg-Zx-fWp"/>
                         <outlet property="tableView" destination="GB2-n1-ope" id="Syo-hO-868"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="JLi-gr-88I">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="z7j-Jc-IXI">
+                            <rect key="frame" x="101.5" y="45.5" width="37" height="37"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="z7j-Jc-IXI" firstAttribute="centerY" secondItem="JLi-gr-88I" secondAttribute="centerY" id="UGg-wN-ZoU"/>
+                        <constraint firstItem="z7j-Jc-IXI" firstAttribute="centerX" secondItem="JLi-gr-88I" secondAttribute="centerX" id="jeQ-bO-lJ1"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="7WA-ph-uzT"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="102.45535714285714"/>
         </scene>

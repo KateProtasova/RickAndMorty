@@ -10,7 +10,8 @@ import Foundation
 import Alamofire
 
 protocol Networking {
-    func fetchAllCharacters(completion: @escaping (Result<[Character], Error>) -> Void)
+    func fetchAllCharacters(completion: @escaping (Result<RootModel, Error>) -> Void)
+    func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void)
 }
 
 class NetworkManager: Networking {
@@ -21,20 +22,33 @@ class NetworkManager: Networking {
 
     }
 
-    func fetchAllCharacters(completion: @escaping (Result<[Character], Error>) -> Void) {
+    func fetchAllCharacters(completion: @escaping (Result<RootModel, Error>) -> Void) {
         let requestMethod = "\(baseUrlString)/\(ServerAPIMethods.getAllCharacters)"
+         print("fetchAllCharacters \(requestMethod)")
+        getCharacters(urlString: requestMethod, completion:completion)
+    }
+
+    func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void) {
+         print("urlString \(urlString)")
+        getCharacters(urlString: urlString, completion:completion)
+    }
+
+    func getCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void) {
+        let requestMethod = urlString
+         print("getCharacters \(requestMethod)")
         AF.request(requestMethod)
             .validate()
             .responseData { response in
+                 print("getCharacters \(response)")
                 switch response.result {
                 case .success(let value):
                     let decoded = self.decodeJSON(type: RootModel.self, from: value)
                     guard let characters = decoded else {
                         return completion(.failure(NetworkError.networkError))
                     }
-                    completion(.success(characters.results))
+                    completion(.success(characters))
                 case .failure:
-                   completion(.failure(NetworkError.networkError))
+                    completion(.failure(NetworkError.networkError))
                 }
         }
     }

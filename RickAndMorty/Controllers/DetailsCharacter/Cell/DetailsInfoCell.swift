@@ -23,5 +23,4 @@ class DetailsInfoCell: UITableViewCell {
         titleLabel.text = info.title
 
     }
-    
 }

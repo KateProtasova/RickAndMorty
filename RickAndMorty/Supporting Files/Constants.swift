@@ -8,7 +8,7 @@
 
 import Foundation
 
-let baseUrlString = "https://rickandmortyapi.com/api/"
+let baseUrlString = "https://rickandmortyapi.com/api"
 
 struct ServerAPIMethods {
     static let getAllCharacters = "character"

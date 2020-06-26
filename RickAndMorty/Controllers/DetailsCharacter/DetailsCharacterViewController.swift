@@ -52,13 +52,11 @@ final class DetailsCharacterViewController: UIViewController {
     }
 
     func getInfoCells(character: Character) {
-
-        let infoCell1: InfoCell = InfoCell(title: "Status", info: character.status.rawValue)
-        let infoCell2: InfoCell = InfoCell(title: "Spesies", info: character.species.rawValue)
-        let infoCell3: InfoCell = InfoCell(title: "Gender", info: character.gender.rawValue)
+        let infoCell1: InfoCell = InfoCell(title: "Status", info: character.status)
+        let infoCell2: InfoCell = InfoCell(title: "Spesies", info: character.species)
+        let infoCell3: InfoCell = InfoCell(title: "Gender", info: character.gender)
         let infoCell4: InfoCell = InfoCell(title: "Loction", info: character.location.name)
         let infoCell5: InfoCell = InfoCell(title: "Created", info: character.created)
-
 
         infoCells.append(infoCell1)
         infoCells.append(infoCell2)
@@ -66,7 +64,6 @@ final class DetailsCharacterViewController: UIViewController {
         infoCells.append(infoCell4)
         infoCells.append(infoCell5)
         tableView.reloadData()
-
     }
 
 }

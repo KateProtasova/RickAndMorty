@@ -8,7 +8,7 @@
 
 import Foundation
 protocol CharactersListViewModelDelegate: class {
-    func updateList(characters: [Character])
+    func updateList(characters: RootModel)
     func showError(error: Error)
     func showSpinner(title: String)
     func hideSpinner()
@@ -27,6 +27,19 @@ final class CharactersListViewModel {
         delegate?.showSpinner(title: "Получаем всех героев")
         networkManager.fetchAllCharacters { characters in
              self.delegate?.hideSpinner()
+            switch characters {
+            case .success(let value):
+                 self.delegate?.updateList(characters: value)
+            case .failure(let error):
+                 self.delegate?.showError(error: error)
+            }
+        }
+    }
+
+    func getNextPage(urlString: String) {
+        print(#function)
+        networkManager.fetchNextPageCharacters(urlString: urlString) { characters in
+            print("characters \(characters)")
             switch characters {
             case .success(let value):
                  self.delegate?.updateList(characters: value)
