@@ -14,11 +14,15 @@ final class CharactersListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var loadingView: UIView!
 
-    var allPages: Int = 0
-    var nextPage: Int = 0
-    var nextUrl: String? = ""
-
+    private var nextUrl: String? = ""
     private var characters: [Character] = []
+
+    let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        return refreshControl
+    }()
+
     let viewModel = CharactersListViewModel(networkManager: NetworkManager.shared)
 
     override func viewDidLoad() {
@@ -26,6 +30,13 @@ final class CharactersListViewController: UIViewController {
         setupUI()
         viewModel.delegate = self
         viewModel.getData()
+
+    }
+
+    @objc
+    private func refresh(sender: UIRefreshControl) {
+        viewModel.refreshData()
+        //sender.endRefreshing()
     }
 
     private func setupUI() {
@@ -35,6 +46,7 @@ final class CharactersListViewController: UIViewController {
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.addSubview(refreshControl)
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Rick and Morty"
     }
@@ -58,11 +70,11 @@ extension CharactersListViewController: UITableViewDataSource {
 
 extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-              if let detailsCharacterViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailsCharacterViewController") as? DetailsCharacterViewController {
-                  detailsCharacterViewController.character = characters[indexPath.row]
-                  navigationController?.pushViewController(detailsCharacterViewController, animated: true)
-              }
-          }
+        if let detailsCharacterViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailsCharacterViewController") as? DetailsCharacterViewController {
+            detailsCharacterViewController.character = characters[indexPath.row]
+            navigationController?.pushViewController(detailsCharacterViewController, animated: true)
+        }
+    }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let count = characters.count
@@ -72,11 +84,9 @@ extension CharactersListViewController: UITableViewDelegate {
                 guard let urlString = nextUrl else {
                     return
                 }
-              viewModel.getNextPage(urlString: urlString)
-              tableView.tableFooterView = loadingView
+                viewModel.getNextPage(urlString: urlString)
+                tableView.tableFooterView = loadingView
                 print("characters \(characters.count)")
-                print("characters \(allPages)")
-                print("characters \(nextPage)")
             }
         }
     }
@@ -86,24 +96,23 @@ extension CharactersListViewController: UITableViewDelegate {
 extension CharactersListViewController: CharactersListViewModelDelegate {
     func updateList(characters: RootModel) {
         self.characters.append(contentsOf: characters.results)
-        allPages = characters.info.pages
-        nextPage += 1
         nextUrl = characters.info.next
         tableView.tableFooterView = UIView(frame: CGRect.zero)
+        refreshControl.endRefreshing()
         self.tableView.reloadData()
     }
 
     func showError(error: Error) {
-           self.showAlert(with: "Ошибка!", and: error.localizedDescription)
-         tableView.tableFooterView = UIView(frame: CGRect.zero)
-       }
+        self.showAlert(with: "Ошибка!", and: error.localizedDescription)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+    }
 
-       func showSpinner(title: String) {
-           SwiftSpinner.setTitleFont(UIFont(name: "Helvetica Neue", size: 16.0))
-           SwiftSpinner.show(title, animated: true)
-       }
+    func showSpinner(title: String) {
+        SwiftSpinner.setTitleFont(UIFont(name: "Helvetica Neue", size: 16.0))
+        SwiftSpinner.show(title, animated: true)
+    }
 
-       func hideSpinner() {
-           SwiftSpinner.hide()
-       }
+    func hideSpinner() {
+        SwiftSpinner.hide()
+    }
 }

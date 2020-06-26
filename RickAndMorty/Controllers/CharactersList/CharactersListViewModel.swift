@@ -36,6 +36,17 @@ final class CharactersListViewModel {
         }
     }
 
+    func refreshData() {
+        networkManager.fetchAllCharacters { characters in
+            switch characters {
+            case .success(let value):
+                 self.delegate?.updateList(characters: value)
+            case .failure(let error):
+                 self.delegate?.showError(error: error)
+            }
+        }
+    }
+
     func getNextPage(urlString: String) {
         print(#function)
         networkManager.fetchNextPageCharacters(urlString: urlString) { characters in

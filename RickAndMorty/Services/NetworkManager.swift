@@ -25,12 +25,12 @@ class NetworkManager: Networking {
     func fetchAllCharacters(completion: @escaping (Result<RootModel, Error>) -> Void) {
         let requestMethod = "\(baseUrlString)/\(ServerAPIMethods.getAllCharacters)"
          print("fetchAllCharacters \(requestMethod)")
-        getCharacters(urlString: requestMethod, completion:completion)
+        getCharacters(urlString: requestMethod, completion: completion)
     }
 
     func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void) {
          print("urlString \(urlString)")
-        getCharacters(urlString: urlString, completion:completion)
+        getCharacters(urlString: urlString, completion: completion)
     }
 
     func getCharacters(urlString: String, completion: @escaping (Result<RootModel, Error>) -> Void) {
