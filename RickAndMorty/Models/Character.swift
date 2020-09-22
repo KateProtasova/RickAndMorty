@@ -22,4 +22,20 @@ final class Character: Codable {
     let url: String
     let created: String
 
+
+    init(id: Int, name: String) {
+        self.id = id
+        self.name = name
+        self.status = name
+        self.species = name
+        self.type = name
+        self.gender = name
+        self.origin = Location(name: name, url: name)
+        self.location = Location(name: name, url: name)
+        self.image = name
+        self.episode = [name]
+        self.url = name
+        self.created = name
+    }
+
 }

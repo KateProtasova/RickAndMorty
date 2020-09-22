@@ -29,7 +29,6 @@ final class CharactersListViewController: UIViewController {
         setupUI()
         viewModel.delegate = self
         viewModel.getData()
-
     }
 
     @objc

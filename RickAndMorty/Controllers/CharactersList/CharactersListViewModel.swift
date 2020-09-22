@@ -29,6 +29,10 @@ final class CharactersListViewModel: ViewModel {
     weak var delegate: CharactersListViewModelDelegate?
     var networkManager: Networking!
 
+//    init(networkManager: Networking) {
+//        self.networkManager = networkManager
+//    }
+
     func getData() {
         delegate?.showSpinner(title: "Получаем всех героев")
         networkManager.fetchAllCharacters { characters in

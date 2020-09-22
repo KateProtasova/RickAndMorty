@@ -18,22 +18,22 @@ class NetworkManager: Networking {
 
     func fetchAllCharacters(completion: @escaping (Result<RootCharacter, Error>) -> Void) {
         let requestMethod = "\(baseUrlString)/\(ServerAPIMethods.getAllCharacters)"
-         print("fetchAllCharacters \(requestMethod)")
+        print("fetchAllCharacters \(requestMethod)")
         getCharacters(urlString: requestMethod, completion: completion)
     }
 
     func fetchNextPageCharacters(urlString: String, completion: @escaping (Result<RootCharacter, Error>) -> Void) {
-         print("urlString \(urlString)")
+        print("urlString \(urlString)")
         getCharacters(urlString: urlString, completion: completion)
     }
 
     func getCharacters(urlString: String, completion: @escaping (Result<RootCharacter, Error>) -> Void) {
         let requestMethod = urlString
-         print("getCharacters \(requestMethod)")
+        print("getCharacters \(requestMethod)")
         AF.request(requestMethod)
             .validate()
             .responseData { response in
-                 print("getCharacters \(response)")
+                print("getCharacters \(response)")
                 switch response.result {
                 case .success(let value):
                     let decoded = self.decodeJSON(type: RootCharacter.self, from: value)

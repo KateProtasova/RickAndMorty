@@ -11,4 +11,9 @@ import Foundation
 final class Location: Codable {
     let name: String
     let url: String
+
+    init(name: String, url: String) {
+        self.name = name
+        self.url = url
+    }
 }

@@ -12,4 +12,8 @@ final class RootCharacter: Codable {
     let info: Info
     let results: [Character]
 
+    init(info: Info, results: [Character]) {
+        self.info = info
+        self.results = results
+    }
 }
