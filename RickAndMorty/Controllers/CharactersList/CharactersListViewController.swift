@@ -21,6 +21,7 @@ final class CharactersListViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
         return refreshControl
     }()
+    
 
     var viewModel: ViewModel!
 
